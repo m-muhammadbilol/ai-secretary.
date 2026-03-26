@@ -113,19 +113,56 @@ Foydalanuvchi gapiradi
 
 ## Vercel Deploy
 
-### Backend
-```bash
-cd backend
-vercel --prod
-# Environment Variables ni Vercel dashboard'da sozlang
+Muhim: bu repo'ni Vercel'ga **bitta project** qilib deploy qilmang.
+To'g'ri usul: **2 ta alohida Vercel project** qiling.
+
+### 1. Backend project
+
+- GitHub repo: shu repo
+- Root Directory: `ai-secretary/backend`
+- Framework Preset: `Other`
+- Build Command: bo'sh
+- Output Directory: bo'sh
+
+Environment Variables:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-2.5-flash
+UZBEKVOICEAI_API_KEY=your_uzbekvoiceai_api_key
+UZBEKVOICEAI_STT_URL=https://uzbekvoice.ai/api/v1/stt
+UZBEKVOICEAI_TTS_URL=https://uzbekvoice.ai/api/v1/tts
+UZBEKVOICEAI_TTS_MODEL=lola
+FRONTEND_URL=https://your-frontend.vercel.app
 ```
 
-### Frontend
-```bash
-cd frontend
-# .env da VITE_API_URL=https://your-backend.vercel.app
-vercel --prod
+Deploydan keyin tekshiring:
+
+- `https://your-backend.vercel.app/`
+- `https://your-backend.vercel.app/api/health`
+
+### 2. Frontend project
+
+- GitHub repo: shu repo
+- Root Directory: `ai-secretary/frontend`
+- Framework Preset: `Vite`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+Environment Variables:
+
+```env
+VITE_API_URL=https://your-backend.vercel.app
 ```
+
+Deploydan keyin frontend shu URL bilan backend API'ga ulanadi.
+
+### 3. Muhim eslatmalar
+
+- `frontend/.env` ichida production uchun `localhost` bo'lmasin
+- `backend/.env` ichida production uchun `FRONTEND_URL` frontend domen bo'lsin
+- Agar env var o'zgarsa, Vercel'da qayta deploy qiling
+- `frontend/vercel.json` va `backend/vercel.json` har biri o'z subprojecti uchun ishlatiladi
 
 ## Test stsenariylari
 
