@@ -33,6 +33,22 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'ai-secretary-backend',
+    message: 'Backend ishlayapti. API endpointlari /api ostida mavjud.',
+    endpoints: [
+      '/api/health',
+      '/api/assistant',
+      '/api/tasks',
+      '/api/reminders',
+      '/api/stt',
+      '/api/tts',
+    ],
+  });
+});
+
 app.use('/api/stt', sttRoute);
 app.use('/api/tts', ttsRoute);
 app.use('/api/assistant', assistantRoute);
